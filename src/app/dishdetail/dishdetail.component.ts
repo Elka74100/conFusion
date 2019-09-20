@@ -10,6 +10,7 @@ import { switchMap } from 'rxjs/operators';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Comment} from '../shared/comment';
+import { DISHES } from '../shared/dishes';
 
 
 @Component({
@@ -75,6 +76,7 @@ export class DishdetailComponent implements OnInit {
           author: ['', [Validators.required, Validators.minLength(2)] ],
           rating: 5,
           comment:['', [Validators.required, Validators.minLength(2)] ],
+          date: ''
         });
 
         this.commentForm.valueChanges
@@ -108,12 +110,23 @@ export class DishdetailComponent implements OnInit {
       onSubmit() {
         this.comment = this.commentForm.value;
         console.log(this.comment);
+        var date1 = new Date(Date.now());
+        var date2 = date1.toISOString();
+        console.log(date2);
+        this.comment.date = date2;
+        this.dish.comments.push(this.comment);
+        
         this.commentForm.reset({
           author: '',
           rating: 5,
           comment:'',
         });
-        this.commentFormDirective.resetForm();
+        this.commentFormDirective.resetForm({
+          author: '',
+          rating: 5,
+          comment:'',
+        });
+     
       }
     
   
