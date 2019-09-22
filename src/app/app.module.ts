@@ -40,7 +40,8 @@ import { DishService } from './services/dish.service';
 import { PromotionService } from './services/promotion.service';
 import { LeaderService } from './services/leader.service';
 
-
+import { HttpClientModule } from '@angular/common/http';
+import { baseURL } from './shared/baseurl';
 
 
 @NgModule({
@@ -74,12 +75,15 @@ import { LeaderService } from './services/leader.service';
     FlexLayoutModule,
     AppRoutingModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [
     DishService,
     PromotionService,
-    LeaderService 
+    LeaderService,
+    {provide: 'baseURL', useValue: baseURL}
+ 
   ],
   bootstrap: [
     AppComponent
