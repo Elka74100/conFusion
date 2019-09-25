@@ -6,8 +6,8 @@ fxLayoutAlign.gt-md="space-around center"
 fxLayoutGap="10px" 
 fxLayoutGap.xs="0">
 
-<div fxFlex="40">
-    <div fxFlex *ngIf="dish"> 
+
+<div fxFlex="40" *ngIf="dish" [@visibility]="visibility"> 
         <mat-card>
             <mat-card-header>
             <mat-card-title>
@@ -29,10 +29,10 @@ fxLayoutGap.xs="0">
             </mat-card-actions>
       </mat-card>  
     </div>
-</div>
 
-<div fxFlex="40">
-    <div fxFlex *ngIf="dish">   
+
+
+    <div fxFlex="40" *ngIf="dish" [@visibility]="visibility">  
        
         <mat-list fxFlex> 
             <h2>Comments</h2>
@@ -83,7 +83,7 @@ fxLayoutGap.xs="0">
         <h2>Error</h2>
         <h4>{{errMess}}</h4>
       </div>
-</div>
+
 
 </div>
 
