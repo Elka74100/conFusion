@@ -1,12 +1,31 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject } from '@angular/core';
+import { Feedback, ContactType } from '../shared/feedback';
+import { FeedbackService } from '../services/feedback.service';
+
+import { Params, ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
+
+import { switchMap } from 'rxjs/operators';
+
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-import { Feedback, ContactType } from '../shared/feedback';
+import { visibility, flyInOut, expand } from '../animations/app.animation';
+
+
 
 @Component({
   selector: 'app-contact',
   templateUrl: './contact.component.html',
-  styleUrls: ['./contact.component.scss']
+  styleUrls: ['./contact.component.scss'],
+  host: {
+    '[@flyInOut]' : 'true',
+    'style' : 'display: block;'
+  },
+  animations: [
+    flyInOut(),
+    visibility(),
+    expand()
+  ]
 })
 
 export class ContactComponent implements OnInit {
@@ -41,13 +60,26 @@ export class ContactComponent implements OnInit {
     },
   };
 
-  feedbackForm: FormGroup;
+  
   feedback: Feedback;
   contactType = ContactType;
 
-  constructor(private fb: FormBuilder) {
-    this.createForm();
-  }
+  feedbackForm: FormGroup;
+
+  errMess: string;
+
+  feedbackcopy: Feedback;
+
+  visibility = 'shown';
+
+
+  constructor(private feedbackservice: FeedbackService,
+    private route: ActivatedRoute,
+    private location: Location,
+    private fb: FormBuilder,
+    @Inject('baseURL') private baseURL) { 
+      this.createForm();
+    }
 
   ngOnInit() {
   }
@@ -93,6 +125,14 @@ export class ContactComponent implements OnInit {
   onSubmit() {
     this.feedback = this.feedbackForm.value;
     console.log(this.feedback);
+    //this.feedbackcopy.create(this.feedback);
+
+    this.feedbackservice.submitFeedback(this.feedback)
+        .subscribe(feedback => {
+        this.feedback = feedback; this.feedbackcopy = feedback;
+      },
+      errmess => { this.feedback = null; this.feedbackcopy = null; this.errMess = <any>errmess; });
+    
     this.feedbackForm.reset({
       firstname: '',
       lastname: '',
