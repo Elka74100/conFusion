@@ -11,8 +11,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { visibility, flyInOut, expand } from '../animations/app.animation';
 
-
-
 @Component({
   selector: 'app-contact',
   templateUrl: './contact.component.html',
@@ -72,7 +70,11 @@ export class ContactComponent implements OnInit {
 
   visibility = 'shown';
 
+  showSpinner = false;
 
+  hideSpinner = false;
+
+  
   constructor(private feedbackservice: FeedbackService,
     private route: ActivatedRoute,
     private location: Location,
@@ -82,6 +84,7 @@ export class ContactComponent implements OnInit {
     }
 
   ngOnInit() {
+    
   }
 
   createForm() :void {
@@ -123,9 +126,9 @@ export class ContactComponent implements OnInit {
   }
 
   onSubmit() {
+    this.showSpinner = true;
     this.feedback = this.feedbackForm.value;
     console.log(this.feedback);
-    //this.feedbackcopy.create(this.feedback);
 
     this.feedbackservice.submitFeedback(this.feedback)
         .subscribe(feedback => {
@@ -143,6 +146,15 @@ export class ContactComponent implements OnInit {
       message: ''
     });
     this.feedbackFormDirective.resetForm();
+   
+    this.feedbackservice.submitFeedback(this.feedback)
+      .subscribe(feedback => 
+        { 
+            this.feedback = feedback; this.feedbackcopy=feedback; 
+            this.hideSpinner = true;  
+            this.showSpinner = false;
+            setTimeout(() => this.feedback = null, 5000); 
+        }
+      )
   }
-
 }

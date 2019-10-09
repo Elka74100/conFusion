@@ -4,7 +4,6 @@ import { Feedback } from '../shared/feedback';
 import { Observable} from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
-
 import { ProcessHTTPMsgService } from './process-httpmsg.service';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
@@ -26,6 +25,7 @@ export class FeedbackService {
     };
     return this.http.post<Feedback>(baseURL + 'feedback/', feedback, httpOptions)
       .pipe(catchError(this.processHTTPMsgService.handleError));
-
   }
+
+  
 }
