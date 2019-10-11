@@ -107,7 +107,8 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "conFusion:serve"
+            "devServerTarget": "conFusion:serve",
+            "port": 4201
           },
           "configurations": {
             "production": {
