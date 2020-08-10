@@ -17,10 +17,10 @@ import { flyInOut, expand } from '../animations/app.animation';
     '[@flyInOut]': 'true',
     'style': 'display: block;'
     },
-    animations: [
-      flyInOut(),
-      expand()
-    ]
+  animations: [
+    flyInOut(),
+    expand()
+  ]
 })
 export class HomeComponent implements OnInit {
 
@@ -31,10 +31,12 @@ export class HomeComponent implements OnInit {
   promotionErrMess: string;
   leaderErrMess: string;
 
-  constructor(private dishservice: DishService,
+  constructor(
+    private dishservice: DishService,
     private promotionservice: PromotionService, 
     private leaderservice: LeaderService, 
-    @Inject('baseURL') private baseURL) { }
+    @Inject('baseURL') private baseURL
+    ) { }
 
   ngOnInit() {
      this.dishservice.getFeaturedDish().subscribe(dish => this.dish = dish,
